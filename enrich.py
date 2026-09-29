@@ -8,6 +8,7 @@ POLICY=json.loads(Path(__file__).with_name("policy.json").read_text())
 
 def enrich_record(record, *, evaluate=decide, key=None, field="text"):
     if not isinstance(record,dict): raise ValueError("JSON object required")
+    if any(name.startswith("jev_") for name in record): raise ValueError("reserved jev_ field already exists")
     result=evaluate(record.get(field),POLICY,key or os.environ["TYPESAFE_API_KEY"])
     return {**record,"jev_outcome":result["outcome"],"jev_choice":result["choice"],"jev_probability":result["probability"],"jev_policy_version":result["policyVersion"],"jev_input_sha256":result["inputSha256"]}
 

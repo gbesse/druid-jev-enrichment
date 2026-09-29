@@ -1,6 +1,6 @@
 # Druid Jev Enrichment
 
-Experimental community alpha v0.1.0 · MIT.
+Experimental community alpha v0.1.1 · MIT.
 
 ## Français
 
@@ -17,6 +17,8 @@ Variables serveur : `TYPESAFE_API_KEY`. Garder les secrets hors du dépôt et de
 
 Interroger ensuite `jev_outcome`, `jev_choice` et `jev_probability` comme des dimensions ordinaires. L’évaluation a lieu avant l’ingestion, jamais à chaque ligne d’une requête SQL.
 
+Une ligne qui possède déjà un champ `jev_` est envoyée au fichier de revue sans être modifiée.
+
 ## English
 
 A tool adds Jev dimensions to JSON rows before Apache Druid ingestion. Failed rows are preserved in a separate review file.
@@ -32,6 +34,8 @@ Server variables: `TYPESAFE_API_KEY`. Keep secrets outside the repository and us
 
 Query `jev_outcome`, `jev_choice`, and `jev_probability` as ordinary dimensions. Evaluation happens before ingestion, never for each SQL query row.
 
+A row that already has a `jev_` field goes to the review file without modification.
+
 ## Español
 
 Una herramienta añade dimensiones Jev a filas JSON antes de ingerirlas en Apache Druid. Las filas fallidas se conservan en un archivo de revisión separado.
@@ -46,6 +50,8 @@ python3 enrich.py examples/events.jsonl enriched.jsonl review.jsonl
 Variables del servidor: `TYPESAFE_API_KEY`. Mantén los secretos fuera del repositorio y de la configuración visible para usuarios.
 
 Consulta `jev_outcome`, `jev_choice` y `jev_probability` como dimensiones normales. La evaluación ocurre antes de la ingesta, nunca para cada fila de una consulta SQL.
+
+Una fila que ya tenga un campo `jev_` se envía al archivo de revisión sin modificaciones.
 
 ## Verification / Vérification / Verificación
 

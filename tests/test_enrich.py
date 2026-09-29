@@ -12,3 +12,10 @@ class DruidTests(unittest.TestCase):
         target=io.StringIO();review=io.StringIO()
         self.assertEqual(convert(io.StringIO('{"text":"server down"}\ninvalid\n'),target,review,evaluate=evaluate,key="test"),(1,1))
         self.assertEqual(len(review.getvalue().splitlines()),1)
+
+    def test_existing_dimensions_are_sent_to_review(self):
+        target=io.StringIO();review=io.StringIO()
+        evaluate=lambda *_: self.fail("Jev must not run")
+        self.assertEqual(convert(io.StringIO('{"text":"x","jev_outcome":"user value"}\n'),target,review,evaluate=evaluate,key="test"),(0,1))
+        self.assertEqual(target.getvalue(),"")
+        self.assertIn("jev_outcome",review.getvalue())
