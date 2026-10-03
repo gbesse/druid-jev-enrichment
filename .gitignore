@@ -1,5 +1,7 @@
 .env
 .local/
+/enriched.jsonl
+/review.jsonl
 __pycache__/
 *.pyc
 .venv/

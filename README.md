@@ -1,6 +1,6 @@
 # Druid Jev Enrichment
 
-Experimental community alpha v0.1.1 · MIT.
+Experimental community alpha v0.1.2 · MIT.
 
 ## Français
 
@@ -9,9 +9,11 @@ Un outil enrichit des lignes JSON avec des dimensions Jev avant leur ingestion d
 Installation :
 
 ```sh
-python3 enrich.py examples/events.jsonl enriched.jsonl review.jsonl
-# Ingest enriched.jsonl with your existing Druid ingestion pipeline.
+mkdir -p .local
+python3 enrich.py examples/events.jsonl .local/enriched.jsonl .local/review.jsonl
 ```
+
+Ingérer ensuite `.local/enriched.jsonl` avec votre pipeline Druid. Les deux fichiers de sortie ont des permissions `600` et `.local/` est ignoré par Git. Le fichier de revue peut contenir les lignes d’origine : limiter son accès et sa durée de conservation.
 
 Variables serveur : `TYPESAFE_API_KEY`. Garder les secrets hors du dépôt et de la configuration visible par les utilisateurs.
 
@@ -26,9 +28,11 @@ A tool adds Jev dimensions to JSON rows before Apache Druid ingestion. Failed ro
 Setup:
 
 ```sh
-python3 enrich.py examples/events.jsonl enriched.jsonl review.jsonl
-# Ingest enriched.jsonl with your existing Druid ingestion pipeline.
+mkdir -p .local
+python3 enrich.py examples/events.jsonl .local/enriched.jsonl .local/review.jsonl
 ```
+
+Ingest `.local/enriched.jsonl` with your Druid pipeline. Both output files have `600` permissions and `.local/` is ignored by Git. The review file may contain original rows: restrict access and retention.
 
 Server variables: `TYPESAFE_API_KEY`. Keep secrets outside the repository and user-visible configuration.
 
@@ -43,9 +47,11 @@ Una herramienta añade dimensiones Jev a filas JSON antes de ingerirlas en Apach
 Instalación:
 
 ```sh
-python3 enrich.py examples/events.jsonl enriched.jsonl review.jsonl
-# Ingest enriched.jsonl with your existing Druid ingestion pipeline.
+mkdir -p .local
+python3 enrich.py examples/events.jsonl .local/enriched.jsonl .local/review.jsonl
 ```
+
+Ingiere `.local/enriched.jsonl` con tu pipeline de Druid. Ambos archivos de salida tienen permisos `600` y Git ignora `.local/`. El archivo de revisión puede contener filas originales: limita su acceso y conservación.
 
 Variables del servidor: `TYPESAFE_API_KEY`. Mantén los secretos fuera del repositorio y de la configuración visible para usuarios.
 
