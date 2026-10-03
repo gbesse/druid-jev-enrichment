@@ -26,6 +26,22 @@ def convert(source,target,review,*,evaluate=decide,key=None,field="text"):
             bad+=1
     return good,bad
 
+def private_output(path):
+    """Open a JSONL result without following a final symlink or exposing rows."""
+    flags = os.O_WRONLY | os.O_CREAT
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    elif Path(path).is_symlink():
+        raise OSError(path)
+    fd = os.open(path, flags, 0o600)
+    try:
+        os.fchmod(fd, 0o600)
+        os.ftruncate(fd, 0)
+        return os.fdopen(fd, "w", encoding="utf-8")
+    except BaseException:
+        os.close(fd)
+        raise
+
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("input")
@@ -34,7 +50,7 @@ if __name__=="__main__":
     parser.add_argument("--text-field",default="text")
     args=parser.parse_args()
     if len({str(Path(p).resolve()) for p in (args.input,args.output,args.review)}) != 3: parser.error("input, output and review paths must differ")
-    with open(args.input,encoding="utf-8") as source,open(args.output,"w",encoding="utf-8") as target,open(args.review,"w",encoding="utf-8") as review:
+    with open(args.input,encoding="utf-8") as source,private_output(args.output) as target,private_output(args.review) as review:
         good,bad=convert(source,target,review,field=args.text_field)
     print(f"enriched={good} review={bad}")
     if bad: raise SystemExit(2)
